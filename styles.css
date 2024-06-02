@@ -1,0 +1,45 @@
+.button-class:before {
+  content: "\2658";
+}
+
+/* From TTTimon @ https://codepen.io/TTTimon/pen/gNBawq */
+.shine-hope-anim:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: ShineAnim 5s ease infinite;
+  animation-delay: 2s;
+}
+
+@keyframes ShineAnim {
+  0% {
+    left: -100%;
+  }
+  10% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+#myOverlay button {
+  position: fixed;
+  top: 0;
+  left: 90%;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: red;
+  z-index: 1000;
+}
