@@ -2,45 +2,37 @@
 checkGameStatus();
 
 function checkGameStatus() {
-  console.log("I have arrived here!!!");
   document.arrive(".game-over-review-button-background", function () {
-    console.log("and we come here,.,.,. letss goo!");
     // Arrive.unbindAllArrive();
 
     // Create button
     const overlay = document.createElement("div");
     overlay.id = "myOverlay";
-    overlay.innerHTML = "Analyze on Lichess";
+    overlay.innerHTML = `<svg viewBox="-0.692 0.5 51.573 55.285" xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="margin-right: 8px;"><path d="M38.956.5c-3.53.418-6.452.902-9.286 2.984C5.534 1.786-.692 18.533.68 29.364 3.493 50.214 31.918 55.785 41.329 41.7c-7.444 7.696-19.276 8.752-28.323 3.084S-.506 27.392 4.683 17.567C9.873 7.742 18.996 4.535 29.03 6.405c2.43-1.418 5.225-3.22 7.655-3.187l-1.694 4.86 12.752 21.37c-.439 5.654-5.459 6.112-5.459 6.112-.574-1.47-1.634-2.942-4.842-6.036-3.207-3.094-17.465-10.177-15.788-16.207-2.001 6.967 10.311 14.152 14.04 17.663 3.73 3.51 5.426 6.04 5.795 6.756 0 0 9.392-2.504 7.838-8.927L37.4 7.171z" stroke="#000" stroke-linejoin="round"/></svg>
+    Analyze on Lichess`;
+
+    // Add inline styles
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.position = "fixed";
+    overlay.style.top = "20px";
+    overlay.style.right = "20px";
+    overlay.style.padding = "10px 20px";
+    overlay.style.backgroundColor = "#4CAF50";
+    overlay.style.color = "white";
+    overlay.style.fontSize = "16px";
+    overlay.style.borderRadius = "5px";
+    overlay.style.cursor = "pointer";
+    overlay.style.zIndex = "1000";
 
     // Append overlay to body
     document.body.appendChild(overlay);
 
     // Add event listener to button
     overlay.addEventListener("click", () => {
-      console.log("Button clicked");
       sendToLichess();
     });
   });
-}
-
-// Injects a button similar to chess.com's native "Analysis" button
-function injectButton(analysisButton) {
-  // Duplicate the original button
-  let newButton = analysisButton.cloneNode("deep");
-  // Style it and link it to the Lichess import function.
-  newButton.childNodes[2].innerText = "Lichess Analysis";
-  newButton.style.margin = "8px 0px 0px 0px";
-  newButton.style.padding = "0px 0px 0px 0px";
-  newButton.childNodes[0].classList.remove("icon-font-chess");
-  newButton.childNodes[0].classList.add("button-class");
-  newButton.classList.add("shine-hope-anim");
-  newButton.childNodes[0].style["height"] = "3.805rem";
-  newButton.addEventListener("click", () => {
-    sendToLichess();
-  });
-  // Append back into the DOM
-  let parentNode = analysisButton.parentNode;
-  parentNode.append(newButton);
 }
 
 // Make request to Lichess through the API (fetch)
@@ -71,7 +63,6 @@ function sendToLichess() {
 
     post(importUrl, req)
       .then((response) => {
-        console.log("response", response);
         if (!response.ok) {
           throw new Error("Network response was not ok " + response.statusText);
         }
