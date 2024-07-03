@@ -71,20 +71,16 @@ function sendToLichess() {
 
     post(importUrl, req)
       .then((response) => {
-        console.log("Is response coming?");
-
-        // Ensure the response is not null or undefined
-        if (response) {
-          // Open the page on a new tab
-          let url = response.url;
-          if (url) {
-            console.log("url", url);
-            window.open(url);
-          } else {
-            alert("Could not import game");
-          }
-        } else {
-          alert("Invalid response received");
+        console.log("response", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data:", data);
+        if (data?.url) {
+          window.open(data?.url);
         }
       })
       .catch((e) => {
@@ -92,7 +88,6 @@ function sendToLichess() {
         alert("Error getting response from lichess.org");
       })
       .finally(() => {
-        // Remove overlay
         Arrive.unbindAllArrive();
       });
   });
@@ -113,10 +108,10 @@ async function post(url = "", data = {}) {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
       },
       body: formBody,
     });
-    console.log("response in fetch", response);
     return response;
   } catch (error) {
     console.error("Error:", error);
