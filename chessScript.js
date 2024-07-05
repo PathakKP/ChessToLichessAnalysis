@@ -71,7 +71,9 @@ function sendToLichess() {
       .then((data) => {
         console.log("Data:", data);
         if (data?.url) {
-          window.open(data?.url);
+          let urlWithParam = new URL(data.url);
+          urlWithParam.searchParams.append("fromChesscom", "true");
+          window.open(urlWithParam);
         }
       })
       .catch((e) => {
